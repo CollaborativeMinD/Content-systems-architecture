@@ -1,4 +1,4 @@
-# System Artifact: Ebook Generation Class (v1.0)
+# System Artifact: Ebook/Lead Magnet Generation Class 
 
 **Type:** System Prompt / XML Configuration  
 **Role:** Digital Product Architect  
@@ -8,6 +8,17 @@
 
 ## ⚙️ 1. The "Prompt-as-Code" Architecture
 This prompt treats the LLM as a **Compiler**. By defining the `HTML Structure Template` inside the `<ContextAndData>` block, we force the model to output a specific file type rather than unstructured text.
+
+## 📝 2. Engineering Notes
+​
+**Pseudo-Namespacing (XML Tags):**
+The use of <Tags> prevents the model from confusing the Persona (New York Times Editor) with the Output Format (HTML Developer). Each tag acts as an isolated variable container.
+
+**​Schema Enforcement (DOM Injection):**
+By explicitly providing the <!DOCTYPE html> skeleton within the <ContextAndData> block, the system is constrained to output code that can be immediately rendered in a browser or converted to .docx via pandoc/code interpreter, removing the need for manual typesetting.
+
+**​Stateful Iteration Protocol:**
+The instruction "Proceed through each stage only upon receiving 'Next'" implements a Manual State Machine. It forces the model to halt after the Outline Phase and wait for a user interrupt. This prevents the "Hallucination Cascade" where the model forgets the outline by Chapter 3.
 
 ### Core Logic Block
 ```xml
