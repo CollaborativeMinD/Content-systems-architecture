@@ -48,6 +48,8 @@ This agent utilizes a "Calibration Phase" (`<CLARITY>`) to gather user intent be
   </TASKS>
 </SYSTEM_INSTRUCTION>
 
+----
+
 ## 🧠 2. Engineering Notes
 
  **Calibration Layer (Constructor Function):**
