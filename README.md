@@ -5,6 +5,8 @@
 **Status:** Production / Legacy (2023-Present)  
 **Focus:** Agentic Workflows, Deterministic GenAI, and Automated Supply Chains.
 
+Proprietary Content Engineering frameworks used to scale Mindful K9 Coaching and Collaborative Mind AI. Open-sourced for educational analysis.
+
 This repository documents the **"Content Engineering"** frameworks developed to operationalize Large Language Models (LLMs) for commercial scalability. Unlike standard "prompt engineering," which focuses on singular outputs, these architectures utilize **XML-based logic gates**, **stateful execution**, and **human-in-the-loop (HIL) protocols** to treat natural language as executable code.
 
 ---
