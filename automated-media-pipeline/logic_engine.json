@@ -1,0 +1,116 @@
+{
+    "name": "Streamline YouTube uploads with AI-generated descriptions and tags from Google Drive",
+    "flow": [
+        {
+            "id": 15,
+            "module": "util:SetVariables",
+            "version": 1,
+            "parameters": {},
+            "mapper": {
+                "scope": "roundtrip",
+                "variables": [
+                    { "name": "Topic 1", "value": "Your Topic" },
+                    { "name": "Topic 2", "value": "Your Topic" },
+                    { "name": "Topic 3", "value": "Your Topic" },
+                    { "name": "Topic 4", "value": "Your Topic" },
+                    { "name": "Topic 5", "value": "Your Topic" }
+                ]
+            }
+        },
+        {
+            "id": 16,
+            "module": "util:SetVariables",
+            "version": 1,
+            "parameters": {},
+            "mapper": {
+                "scope": "roundtrip",
+                "variables": [
+                    {
+                        "name": "Topic Rotator",
+                        "value": "{{switch((floor(random * (5 - 1 + 1)) + 1); 1; 15.`Topic 1`; 2; 15.`Topic 2`; 3; 15.`Topic 3`; 4; 15.`Topic 4`; 5; 15.`Topic 5`)}}"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 7,
+            "module": "util:SetVariables",
+            "version": 1,
+            "parameters": {},
+            "mapper": {
+                "scope": "roundtrip",
+                "variables": [
+                    { "name": "Brand Name", "value": "Collaborative Mind AI Solutions" },
+                    { "name": "Brand Email", "value": "Charles@collaborativemindai.com" },
+                    { "name": "Brand Owner", "value": "Charles Austin" },
+                    { "name": "Tone, Style, and Personality Guidelines", "value": "<toneAndStyle name=\"Charles 4.2\">...</toneAndStyle>" }
+                ]
+            }
+        },
+        {
+            "id": 8,
+            "module": "openai-gpt-3:CreateCompletion",
+            "version": 1,
+            "parameters": { "__IMTCONN__": 3919576 },
+            "mapper": {
+                "model": "o3-mini",
+                "select": "chat",
+                "messages": [
+                    {
+                        "role": "system",
+                        "content": "{\n  \"System_Prompt_Message\": \"Ensure responses strictly adhere to the provided automation prompt structure...\"\n}"
+                    },
+                    {
+                        "role": "user",
+                        "content": "[Semantic Entities]\n\n{\n  \"Video_Topic\": \"{{16.`Topic Rotator`}}\",\n  \"Brand_Context\": ...\n}"
+                    }
+                ],
+                "response_format": "json_object",
+                "reasoning_effort": "medium"
+            }
+        },
+        {
+            "id": 9,
+            "module": "openai-gpt-3:CreateCompletion",
+            "version": 1,
+            "parameters": { "__IMTCONN__": 3919576 },
+            "mapper": {
+                "model": "gpt-4o-mini",
+                "select": "chat",
+                "messages": [
+                    {
+                        "role": "system",
+                        "content": "{\n  \"Content_Worker_System_Message\": \"You are the content creator responsible for generating personalized, engaging, and highly targeted initial outreach content...\"\n}"
+                    },
+                    {
+                        "role": "user",
+                        "content": "{\n  \"Input_Context\": \"{{8.result.Script_Outline}}...\",\n  \"Content_Worker_User_Message\": \"Using the provided JSON-structured data, create personalized initial outreach content...\"\n}"
+                    }
+                ],
+                "response_format": "json_object"
+            }
+        },
+        {
+            "id": 10,
+            "module": "heygen:createAnAvatarVideoV2",
+            "version": 1,
+            "parameters": { "__IMTCONN__": 4055102 },
+            "mapper": {
+                "title": "{{9.result.Video_Title}}",
+                "video_inputs": [
+                    {
+                        "voice": {
+                            "type": "text",
+                            "voice_id": "cf569cfd529b4f90bba1ba700c364d41",
+                            "input_text": "{{9.result.Script}}"
+                        },
+                        "character": {
+                            "type": "talking_photo",
+                            "talking_photo_id": "b20acae159924f23954985a02c73fdd5"
+                        }
+                    }
+                ]
+            }
+        }
+    ]
+}
