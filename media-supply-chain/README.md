@@ -24,3 +24,27 @@ To decouple **Creative Direction** from **Production Rendering**. This system ut
 
 ### 📜 Directory Contents
 * `bulk_video_pipeline.md` - Full architectural documentation, system prompts, and integration steps.
+
+### 🔄 2. The ETL Integration Workflow
+
+**​Phase A**: Extract (Generation)
+​Execute: Run the System Prompt in ChatGPT-4 or Claude 3.
+​Validate: Review the <REVIEW> scores in the output. Reject any batch where self-rating averages below 8.5/10.
+
+**​Phase B**: Transform (Serialization)
+​Serialize: Copy the validated Markdown Table into Google Sheets.
+​Sanitize: Check for "hanging quotes" or special characters that might break CSV parsing.
+
+​Export: Download as .csv (Comma Separated Values).
+
+​**Phase C**: Load & Render (Canva API)
+​Target: Open Canva Video Project (Mobile Vertical 1080x1920).
+​Map:
+​Select Text Element → Connect Data → Quote_Column.
+​(Optional) Select Background Element → Connect Data → B-Roll_ID.
+​Render: Execute "Bulk Create" to generate 100 pages.
+​Load: Batch download as individual .mp4 files.
+
+## ​📝 Architect's Note
+
+​This pipeline demonstrates the "Force Multiplier" effect of combining LLM logic with legacy batch-processing tools. By treating video frames as data containers, we decouple creative effort from production volume.
