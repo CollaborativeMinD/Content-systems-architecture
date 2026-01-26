@@ -1,0 +1,62 @@
+{
+    "name": "Integration HeyGen, Google Drive, OpenAI (ChatGPT, Whisper, DALL-E), YouTube",
+    "flow": [
+        {
+            "id": 1,
+            "module": "heygen:newAvatarVideo",
+            "version": 1,
+            "parameters": { "__IMTHOOK__": 2137948 },
+            "mapper": {}
+        },
+        {
+            "id": 7,
+            "module": "heygen:getVideo",
+            "version": 1,
+            "parameters": { "__IMTCONN__": 4055102 },
+            "mapper": {
+                "video_id": "{{1.event_data.video_id}}"
+            }
+        },
+        {
+            "id": 8,
+            "module": "openai-gpt-3:CreateCompletion",
+            "version": 1,
+            "parameters": { "__IMTCONN__": 3060309 },
+            "mapper": {
+                "model": "gpt-4o-mini",
+                "select": "chat",
+                "messages": [
+                    {
+                        "role": "system",
+                        "content": "{\n  \"Content_Worker_System_Message\": \"You are the content creator responsible for generating personalized, engaging, and highly targeted YouTube short videos...\"\n}"
+                    },
+                    {
+                        "role": "user",
+                        "content": "Give me 5 relevant hashtags... provide a single paragraph description... using the draft video title: \"{{1.event_data.callback_id}}\""
+                    }
+                ],
+                "response_format": "json_object"
+            }
+        },
+        {
+            "id": 6,
+            "module": "youtube:uploadVideo",
+            "version": 4,
+            "parameters": { "__IMTCONN__": 4055096 },
+            "mapper": {
+                "data": "{{7.video_url}}",
+                "tags": [
+                    "{{8.result.Hashtags.Hashtag_1}}",
+                    "{{8.result.Hashtags.Hashtag_2}}",
+                    "{{8.result.Hashtags.Hashtag_3}}",
+                    "{{8.result.Hashtags.Hashtag_4}}",
+                    "{{8.result.Hashtags.Hashtag_5}}"
+                ],
+                "title": "{{8.result.Video_Title}}",
+                "description": "{{8.result.Video_description}}",
+                "privacyStatus": "public",
+                "categoryId": "26"
+            }
+        }
+    ]
+}
