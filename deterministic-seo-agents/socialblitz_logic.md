@@ -1,4 +1,3 @@
-```markdown
 # System Artifact: SocialBLITZ Orchestrator
 
 **Type:** Multi-Platform Adaptor  
